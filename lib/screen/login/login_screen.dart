@@ -1,12 +1,16 @@
 import 'dart:ui';
+import 'package:dio/dio.dart';
+import 'package:finance_tracker_app/manager/user_manager.dart';
+import 'package:finance_tracker_app/screen/login/widgets/social_button.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'dashboard_screen.dart';
-
-// ─────────────────────────────────────────────
-//  DEPENDÊNCIAS (pubspec.yaml)
-//  google_fonts: ^6.1.0
-// ─────────────────────────────────────────────
+import 'package:provider/provider.dart';
+import '../../common/api_error_parse.dart';
+import '../../widgets/finance_snackbar.dart';
+import '../../widgets/finance_text_field.dart';
+import '../auth/auth_screen.dart';
+import '../forgot/forgot_password_screen.dart';
+import '../home/home_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -18,8 +22,10 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen>
     with TickerProviderStateMixin {
   // ── Controllers ───────────────────────────
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
+  final _emailController = TextEditingController(
+    text: 'fonsecarichar28@gmail.com',
+  );
+  final _passwordController = TextEditingController(text: 'Rgf@1302');
   bool _obscurePassword = true;
   bool _isLoading = false;
 
@@ -57,15 +63,14 @@ class _LoginScreenState extends State<LoginScreen>
       duration: const Duration(milliseconds: 700),
     );
 
-    _fadeAnim =
-        CurvedAnimation(parent: _fadeController, curve: Curves.easeOut);
-    _slideAnim = Tween<Offset>(
-      begin: const Offset(0, 0.1),
-      end: Offset.zero,
-    ).animate(
-        CurvedAnimation(parent: _slideController, curve: Curves.easeOutCubic));
+    _fadeAnim = CurvedAnimation(parent: _fadeController, curve: Curves.easeOut);
+    _slideAnim = Tween<Offset>(begin: const Offset(0, 0.1), end: Offset.zero)
+        .animate(
+          CurvedAnimation(parent: _slideController, curve: Curves.easeOutCubic),
+        );
     _logoScaleAnim = Tween<double>(begin: 0.7, end: 1.0).animate(
-        CurvedAnimation(parent: _logoController, curve: Curves.elasticOut));
+      CurvedAnimation(parent: _logoController, curve: Curves.elasticOut),
+    );
 
     _logoController.forward();
     Future.delayed(const Duration(milliseconds: 200), () {
@@ -84,32 +89,51 @@ class _LoginScreenState extends State<LoginScreen>
     super.dispose();
   }
 
-  // ── Login Action ───────────────────────────
   Future<void> _handleLogin() async {
     setState(() => _isLoading = true);
-    await Future.delayed(const Duration(milliseconds: 1400));
-    if (!mounted) return;
-    setState(() => _isLoading = false);
-    Navigator.of(context).pushReplacement(
-      PageRouteBuilder(
-        transitionDuration: const Duration(milliseconds: 500),
-        pageBuilder: (_, __, ___) => const DashboardScreen(),
-        transitionsBuilder: (_, animation, __, child) {
-          return FadeTransition(
-            opacity: animation,
-            child: SlideTransition(
-              position: Tween<Offset>(
-                begin: const Offset(0.05, 0),
-                end: Offset.zero,
-              ).animate(
-                CurvedAnimation(parent: animation, curve: Curves.easeOutCubic),
+
+    try {
+      await context.read<UserManager>().login(
+        email: _emailController.text,
+        password: _passwordController.text,
+      );
+
+      if (!mounted) return;
+
+      // ✅ Navega SÓ quando o login for bem sucedido
+      Navigator.of(context).pushReplacement(
+        PageRouteBuilder(
+          transitionDuration: const Duration(milliseconds: 500),
+          pageBuilder: (_, __, ___) => const HomeScreen(),
+          transitionsBuilder: (_, animation, __, child) {
+            return FadeTransition(
+              opacity: animation,
+              child: SlideTransition(
+                position: Tween<Offset>(
+                  begin: const Offset(0.05, 0),
+                  end: Offset.zero,
+                ).animate(
+                  CurvedAnimation(
+                    parent: animation,
+                    curve: Curves.easeOutCubic,
+                  ),
+                ),
+                child: child,
               ),
-              child: child,
-            ),
-          );
-        },
-      ),
-    );
+            );
+          },
+        ),
+      );
+    } on DioException catch (e) {
+      if (!mounted) return;
+      final message = ApiErrorParser.parse(e);
+      FinancaSnackBar.error(context, message); // ❌ Mostra o erro e fica na tela
+    } catch (e) {
+      if (!mounted) return;
+      FinancaSnackBar.error(context, 'Algo deu errado. Tente novamente.');
+    } finally {
+      if (mounted) setState(() => _isLoading = false);
+    }
   }
 
   @override
@@ -119,9 +143,7 @@ class _LoginScreenState extends State<LoginScreen>
       resizeToAvoidBottomInset: true,
       body: Stack(
         children: [
-          // ── Background blobs decorativos ──
           _buildBackground(),
-
           SafeArea(
             child: FadeTransition(
               opacity: _fadeAnim,
@@ -169,10 +191,7 @@ class _LoginScreenState extends State<LoginScreen>
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               gradient: RadialGradient(
-                colors: [
-                  _accent.withOpacity(0.12),
-                  Colors.transparent,
-                ],
+                colors: [_accent.withOpacity(0.12), Colors.transparent],
               ),
             ),
           ),
@@ -187,10 +206,7 @@ class _LoginScreenState extends State<LoginScreen>
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               gradient: RadialGradient(
-                colors: [
-                  _accentPink.withOpacity(0.08),
-                  Colors.transparent,
-                ],
+                colors: [_accentPink.withOpacity(0.08), Colors.transparent],
               ),
             ),
           ),
@@ -239,10 +255,7 @@ class _LoginScreenState extends State<LoginScreen>
           const SizedBox(height: 6),
           Text(
             'Seu dinheiro, no controle.',
-            style: GoogleFonts.dmSans(
-              fontSize: 14,
-              color: _textSecondary,
-            ),
+            style: GoogleFonts.dmSans(fontSize: 14, color: _textSecondary),
           ),
         ],
       ),
@@ -278,17 +291,14 @@ class _LoginScreenState extends State<LoginScreen>
           const SizedBox(height: 4),
           Text(
             'Bem-vindo de volta 👋',
-            style: GoogleFonts.dmSans(
-              fontSize: 13,
-              color: _textSecondary,
-            ),
+            style: GoogleFonts.dmSans(fontSize: 13, color: _textSecondary),
           ),
           const SizedBox(height: 28),
 
           // E-mail
           _buildLabel('E-mail'),
           const SizedBox(height: 8),
-          _FinanceTextField(
+          FinanceTextField(
             controller: _emailController,
             hint: 'seu@email.com',
             icon: Icons.email_outlined,
@@ -299,14 +309,13 @@ class _LoginScreenState extends State<LoginScreen>
           // Senha
           _buildLabel('Senha'),
           const SizedBox(height: 8),
-          _FinanceTextField(
+          FinanceTextField(
             controller: _passwordController,
             hint: '••••••••',
             icon: Icons.lock_outline_rounded,
             obscureText: _obscurePassword,
             suffixIcon: GestureDetector(
-              onTap: () =>
-                  setState(() => _obscurePassword = !_obscurePassword),
+              onTap: () => setState(() => _obscurePassword = !_obscurePassword),
               child: Icon(
                 _obscurePassword
                     ? Icons.visibility_off_outlined
@@ -322,7 +331,14 @@ class _LoginScreenState extends State<LoginScreen>
           Align(
             alignment: Alignment.centerRight,
             child: GestureDetector(
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => const ForgotPasswordScreen(),
+                  ),
+                );
+              },
               child: Text(
                 'Esqueci minha senha',
                 style: GoogleFonts.dmSans(
@@ -404,7 +420,6 @@ class _LoginScreenState extends State<LoginScreen>
     );
   }
 
-  // ── Divider ────────────────────────────────
   Widget _buildDivider() {
     return Row(
       children: [
@@ -415,10 +430,7 @@ class _LoginScreenState extends State<LoginScreen>
           padding: const EdgeInsets.symmetric(horizontal: 12),
           child: Text(
             'ou continue com',
-            style: GoogleFonts.dmSans(
-              fontSize: 12,
-              color: _textSecondary,
-            ),
+            style: GoogleFonts.dmSans(fontSize: 12, color: _textSecondary),
           ),
         ),
         Expanded(
@@ -428,43 +440,35 @@ class _LoginScreenState extends State<LoginScreen>
     );
   }
 
-  // ── Social Buttons ─────────────────────────
   Widget _buildSocialButtons() {
     return Row(
       children: [
         Expanded(
-          child: _SocialButton(
-            label: 'Google',
-            icon: '🇬',
-            onTap: () {},
-          ),
+          child: SocialButton(label: 'Google', icon: '🇬', onTap: () {}),
         ),
         const SizedBox(width: 12),
         Expanded(
-          child: _SocialButton(
-            label: 'Apple',
-            icon: '🍎',
-            onTap: () {},
-          ),
+          child: SocialButton(label: 'Apple', icon: '🍎', onTap: () {}),
         ),
       ],
     );
   }
 
-  // ── Sign Up Link ───────────────────────────
   Widget _buildSignUpLink() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
           'Não tem uma conta? ',
-          style: GoogleFonts.dmSans(
-            fontSize: 14,
-            color: _textSecondary,
-          ),
+          style: GoogleFonts.dmSans(fontSize: 14, color: _textSecondary),
         ),
         GestureDetector(
-          onTap: () {},
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => const SignUpScreen()),
+            );
+          },
           child: Text(
             'Criar conta',
             style: GoogleFonts.dmSans(
@@ -475,116 +479,6 @@ class _LoginScreenState extends State<LoginScreen>
           ),
         ),
       ],
-    );
-  }
-}
-
-// ─────────────────────────────────────────────
-//  WIDGETS AUXILIARES
-// ─────────────────────────────────────────────
-
-class _FinanceTextField extends StatelessWidget {
-  const _FinanceTextField({
-    required this.controller,
-    required this.hint,
-    required this.icon,
-    this.keyboardType,
-    this.obscureText = false,
-    this.suffixIcon,
-  });
-
-  final TextEditingController controller;
-  final String hint;
-  final IconData icon;
-  final TextInputType? keyboardType;
-  final bool obscureText;
-  final Widget? suffixIcon;
-
-  static const _surface = Color(0xFF131F35);
-  static const _inputBorder = Color(0xFF1E3A5F);
-  static const _accent = Color(0xFF34D399);
-  static const _textPrimary = Color(0xFFE2E8F0);
-  static const _textSecondary = Color(0xFF64748B);
-
-  @override
-  Widget build(BuildContext context) {
-    return TextField(
-      controller: controller,
-      keyboardType: keyboardType,
-      obscureText: obscureText,
-      style: GoogleFonts.dmSans(
-        color: _textPrimary,
-        fontSize: 15,
-      ),
-      cursorColor: _accent,
-      decoration: InputDecoration(
-        hintText: hint,
-        hintStyle: GoogleFonts.dmSans(
-          color: _textSecondary,
-          fontSize: 15,
-        ),
-        prefixIcon: Icon(icon, color: _textSecondary, size: 20),
-        suffixIcon: suffixIcon != null
-            ? Padding(
-                padding: const EdgeInsets.only(right: 4),
-                child: suffixIcon,
-              )
-            : null,
-        filled: true,
-        fillColor: const Color(0xFF0F1E33),
-        contentPadding:
-            const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(14),
-          borderSide: const BorderSide(color: _inputBorder, width: 1.2),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(14),
-          borderSide: const BorderSide(color: _accent, width: 1.5),
-        ),
-      ),
-    );
-  }
-}
-
-class _SocialButton extends StatelessWidget {
-  const _SocialButton({
-    required this.label,
-    required this.icon,
-    required this.onTap,
-  });
-
-  final String label;
-  final String icon;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        height: 50,
-        decoration: BoxDecoration(
-          color: const Color(0xFF131F35),
-          borderRadius: BorderRadius.circular(14),
-          border: Border.all(color: Colors.white.withOpacity(0.07)),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(icon, style: const TextStyle(fontSize: 18)),
-            const SizedBox(width: 8),
-            Text(
-              label,
-              style: GoogleFonts.dmSans(
-                fontSize: 14,
-                fontWeight: FontWeight.w600,
-                color: const Color(0xFFE2E8F0),
-              ),
-            ),
-          ],
-        ),
-      ),
     );
   }
 }

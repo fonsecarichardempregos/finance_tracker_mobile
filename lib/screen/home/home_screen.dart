@@ -1,8 +1,12 @@
 import 'dart:ui';
+import 'package:finance_tracker_app/screen/menu/menu_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+
+import '../add_transaction/add_transaction_screen.dart';
+import '../notifications/notifications_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -11,8 +15,7 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen>
-    with TickerProviderStateMixin {
+class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   late AnimationController _fadeController;
   late AnimationController _slideController;
   late Animation<double> _fadeAnim;
@@ -22,7 +25,7 @@ class _HomeScreenState extends State<HomeScreen>
   static const _bg = Color(0xFF0B1120);
   static const _surface = Color(0xFF131F35);
   static const _card = Color(0xFF1A2B45);
-  static const _accent = Color(0xFF34D399);   // emerald
+  static const _accent = Color(0xFF34D399); // emerald
   static const _accentBlue = Color(0xFF60A5FA);
   static const _accentPink = Color(0xFFF472B6);
   static const _accentYellow = Color(0xFFFBBF24);
@@ -59,10 +62,10 @@ class _HomeScreenState extends State<HomeScreen>
       duration: const Duration(milliseconds: 700),
     );
     _fadeAnim = CurvedAnimation(parent: _fadeController, curve: Curves.easeOut);
-    _slideAnim = Tween<Offset>(
-      begin: const Offset(0, 0.08),
-      end: Offset.zero,
-    ).animate(CurvedAnimation(parent: _slideController, curve: Curves.easeOutCubic));
+    _slideAnim = Tween<Offset>(begin: const Offset(0, 0.08), end: Offset.zero)
+        .animate(
+          CurvedAnimation(parent: _slideController, curve: Curves.easeOutCubic),
+        );
 
     _fadeController.forward();
     _slideController.forward();
@@ -75,8 +78,7 @@ class _HomeScreenState extends State<HomeScreen>
     super.dispose();
   }
 
-  double get _totalSpent =>
-      _categories.fold(0, (sum, c) => sum + c.value);
+  double get _totalSpent => _categories.fold(0, (sum, c) => sum + c.value);
 
   @override
   Widget build(BuildContext context) {
@@ -135,7 +137,6 @@ class _HomeScreenState extends State<HomeScreen>
         ),
         padding: const EdgeInsets.fromLTRB(20, 52, 20, 0),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -158,9 +159,24 @@ class _HomeScreenState extends State<HomeScreen>
                 ),
               ],
             ),
+            Spacer(),
             _GlassButton(
-              child: const Text('🔔', style: TextStyle(fontSize: 18)),
-              onTap: () {},
+              child: const Text(
+                '🔔',
+                style: TextStyle(fontSize: 18, color: Colors.white),
+              ),
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const NotificationsScreen()),
+              ),
+            ),
+            const SizedBox(width: 12),
+            _GlassButton(
+              child: const Text('📋', style: TextStyle(fontSize: 18)),
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const MenuScreen()),
+              ),
             ),
           ],
         ),
@@ -180,10 +196,7 @@ class _HomeScreenState extends State<HomeScreen>
           end: Alignment.bottomRight,
           colors: [Color(0xFF1E3A5F), Color(0xFF0F2440)],
         ),
-        border: Border.all(
-          color: _accent.withOpacity(0.25),
-          width: 1.2,
-        ),
+        border: Border.all(color: _accent.withOpacity(0.25), width: 1.2),
         boxShadow: [
           BoxShadow(
             color: _accent.withOpacity(0.08),
@@ -208,7 +221,10 @@ class _HomeScreenState extends State<HomeScreen>
                 ),
               ),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 4,
+                ),
                 decoration: BoxDecoration(
                   color: _accent.withOpacity(0.15),
                   borderRadius: BorderRadius.circular(20),
@@ -267,10 +283,7 @@ class _HomeScreenState extends State<HomeScreen>
           const SizedBox(height: 8),
           Text(
             '62% da meta mensal atingida',
-            style: GoogleFonts.dmSans(
-              fontSize: 12,
-              color: _textSecondary,
-            ),
+            style: GoogleFonts.dmSans(fontSize: 12, color: _textSecondary),
           ),
         ],
       ),
@@ -344,8 +357,8 @@ class _HomeScreenState extends State<HomeScreen>
                             _touchedIndex = null;
                             return;
                           }
-                          _touchedIndex = response
-                              .touchedSection!.touchedSectionIndex;
+                          _touchedIndex =
+                              response.touchedSection!.touchedSectionIndex;
                         });
                       },
                     ),
@@ -466,7 +479,10 @@ class _HomeScreenState extends State<HomeScreen>
 
   Widget _buildFAB() {
     return GestureDetector(
-      onTap: () {},
+      onTap: () => Navigator.push(
+        context,
+        MaterialPageRoute(builder: (_) => const AddTransactionScreen()),
+      ),
       child: Container(
         width: 58,
         height: 58,
@@ -490,7 +506,6 @@ class _HomeScreenState extends State<HomeScreen>
     );
   }
 }
-
 
 class _MiniCard extends StatelessWidget {
   const _MiniCard({
@@ -563,6 +578,7 @@ class _MiniCard extends StatelessWidget {
 
 class _LegendDot extends StatelessWidget {
   const _LegendDot({required this.category});
+
   final _Category category;
 
   @override
@@ -593,6 +609,7 @@ class _LegendDot extends StatelessWidget {
 
 class _GlassButton extends StatelessWidget {
   const _GlassButton({required this.child, required this.onTap});
+
   final Widget child;
   final VoidCallback onTap;
 
@@ -620,9 +637,9 @@ class _GlassButton extends StatelessWidget {
   }
 }
 
-
 class _Category {
   const _Category(this.name, this.value, this.color);
+
   final String name;
   final double value;
   final Color color;
@@ -637,6 +654,7 @@ class _Transaction {
     this.icon,
     this.date,
   );
+
   final String name;
   final String category;
   final double amount;
