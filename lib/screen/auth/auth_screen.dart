@@ -195,9 +195,12 @@ class _SignUpScreenState extends State<SignUpScreen>
       if (!mounted) return;
       final message = ApiErrorParser.parse(e);
       FinancaSnackBar.error(context, message);
+      return;
     } catch (e) {
       if (!mounted) return;
       FinancaSnackBar.error(context, 'Algo deu errado. Tente novamente.');
+      return;
+
     } finally {
       if (mounted) setState(() => _isLoading = false);
 

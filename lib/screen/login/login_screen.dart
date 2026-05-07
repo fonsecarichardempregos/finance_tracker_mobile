@@ -100,7 +100,6 @@ class _LoginScreenState extends State<LoginScreen>
 
       if (!mounted) return;
 
-      // ✅ Navega SÓ quando o login for bem sucedido
       Navigator.of(context).pushReplacement(
         PageRouteBuilder(
           transitionDuration: const Duration(milliseconds: 500),
