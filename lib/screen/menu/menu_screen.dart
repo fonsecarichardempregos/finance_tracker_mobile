@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../common/app_colors.dart';
 import '../login/login_screen.dart';
 
 // ─────────────────────────────────────────────
@@ -15,17 +16,7 @@ class MenuScreen extends StatefulWidget {
 
 class _MenuScreenState extends State<MenuScreen>
     with SingleTickerProviderStateMixin {
-  static const _bg = Color(0xFF0B1120);
-  static const _surface = Color(0xFF131F35);
-  static const _card = Color(0xFF1A2B45);
-  static const _accent = Color(0xFF34D399);
-  static const _accentBlue = Color(0xFF60A5FA);
-  static const _accentPink = Color(0xFFF472B6);
-  static const _accentYellow = Color(0xFFFBBF24);
-  static const _accentPurple = Color(0xFFA78BFA);
-  static const _textPrimary = Color(0xFFE2E8F0);
-  static const _textSecondary = Color(0xFF64748B);
-  static const _errorColor = Color(0xFFFC8181);
+
 
   late AnimationController _fadeController;
   late Animation<double> _fadeAnim;
@@ -79,7 +70,7 @@ class _MenuScreenState extends State<MenuScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: _bg,
+      backgroundColor: AppColors.bg,
       body: FadeTransition(
         opacity: _fadeAnim,
         child: CustomScrollView(
@@ -96,24 +87,24 @@ class _MenuScreenState extends State<MenuScreen>
                     _buildStatsRow(),
                     const SizedBox(height: 28),
                     _buildMenuSection('Conta', [
-                      _MenuItem('Editar Perfil', '✏️', _accentBlue,
+                      _MenuItem('Editar Perfil', '✏️', AppColors.accentBlue,
                           () {}),
-                      _MenuItem('Segurança', '🔐', _accentPurple, () {}),
+                      _MenuItem('Segurança', '🔐', AppColors.accentPurple, () {}),
                       _MenuItem(
-                          'Notificações', '🔔', _accentYellow, () {}),
+                          'Notificações', '🔔', AppColors.accentYellow, () {}),
                     ]),
                     const SizedBox(height: 16),
                     _buildMenuSection('Preferências', [
-                      _MenuItem('Moeda & Região', '🌎', _accentBlue,
+                      _MenuItem('Moeda & Região', '🌎', AppColors.accentBlue,
                           () {}),
-                      _MenuItem('Aparência', '🎨', _accentPink, () {}),
-                      _MenuItem('Exportar dados', '📤', _accent, () {}),
+                      _MenuItem('Aparência', '🎨', AppColors.accentPink, () {}),
+                      _MenuItem('Exportar dados', '📤', AppColors.accent, () {}),
                     ]),
                     const SizedBox(height: 16),
                     _buildMenuSection('Suporte', [
-                      _MenuItem('Ajuda & FAQ', '❓', _accentBlue, () {}),
-                      _MenuItem('Fale conosco', '💬', _accent, () {}),
-                      _MenuItem('Avaliar o app', '⭐', _accentYellow,
+                      _MenuItem('Ajuda & FAQ', '❓', AppColors.accentBlue, () {}),
+                      _MenuItem('Fale conosco', '💬', AppColors.accent, () {}),
+                      _MenuItem('Avaliar o app', '⭐', AppColors.accentYellow,
                           () {}),
                     ]),
                     const SizedBox(height: 24),
@@ -122,7 +113,7 @@ class _MenuScreenState extends State<MenuScreen>
                     Text(
                       'Finança v1.0.0',
                       style: GoogleFonts.dmSans(
-                          fontSize: 12, color: _textSecondary),
+                          fontSize: 12, color: AppColors.textSecondary),
                     ),
                   ],
                 ),
@@ -136,7 +127,7 @@ class _MenuScreenState extends State<MenuScreen>
 
   Widget _buildAppBar() {
     return SliverAppBar(
-      backgroundColor: _bg,
+      backgroundColor: AppColors.bg,
       pinned: true,
       elevation: 0,
       leading: GestureDetector(
@@ -144,17 +135,17 @@ class _MenuScreenState extends State<MenuScreen>
         child: Container(
           margin: const EdgeInsets.all(10),
           decoration: BoxDecoration(
-            color: _surface,
+            color: AppColors.surface,
             borderRadius: BorderRadius.circular(10),
             border: Border.all(color: Colors.white.withOpacity(0.07)),
           ),
           child: const Icon(Icons.arrow_back_ios_new_rounded,
-              color: _textPrimary, size: 15),
+              color: AppColors.textPrimary, size: 15),
         ),
       ),
       title: Text('Perfil',
           style: GoogleFonts.dmSerifDisplay(
-              fontSize: 20, color: _textPrimary)),
+              fontSize: 20, color: AppColors.textPrimary)),
     );
   }
 
@@ -169,10 +160,10 @@ class _MenuScreenState extends State<MenuScreen>
           colors: [Color(0xFF1E3A5F), Color(0xFF0F2440)],
         ),
         borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: _accent.withOpacity(0.2), width: 1.2),
+        border: Border.all(color: AppColors.accent.withOpacity(0.2), width: 1.2),
         boxShadow: [
           BoxShadow(
-            color: _accent.withOpacity(0.06),
+            color: AppColors.accent.withOpacity(0.06),
             blurRadius: 30,
             offset: const Offset(0, 8),
           ),
@@ -195,7 +186,7 @@ class _MenuScreenState extends State<MenuScreen>
                   borderRadius: BorderRadius.circular(20),
                   boxShadow: [
                     BoxShadow(
-                      color: _accent.withOpacity(0.4),
+                      color: AppColors.accent.withOpacity(0.4),
                       blurRadius: 14,
                       offset: const Offset(0, 4),
                     ),
@@ -214,7 +205,7 @@ class _MenuScreenState extends State<MenuScreen>
                   width: 18,
                   height: 18,
                   decoration: BoxDecoration(
-                    color: _accent,
+                    color: AppColors.accent,
                     shape: BoxShape.circle,
                     border:
                         Border.all(color: const Color(0xFF0F2440), width: 2),
@@ -234,23 +225,23 @@ class _MenuScreenState extends State<MenuScreen>
                     style: GoogleFonts.dmSans(
                         fontSize: 17,
                         fontWeight: FontWeight.w700,
-                        color: _textPrimary)),
+                        color: AppColors.textPrimary)),
                 const SizedBox(height: 3),
                 Text(_user.email,
                     style: GoogleFonts.dmSans(
-                        fontSize: 13, color: _textSecondary)),
+                        fontSize: 13, color: AppColors.textSecondary)),
                 const SizedBox(height: 6),
                 Container(
                   padding: const EdgeInsets.symmetric(
                       horizontal: 8, vertical: 3),
                   decoration: BoxDecoration(
-                    color: _accent.withOpacity(0.12),
+                    color: AppColors.accent.withOpacity(0.12),
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Text(_user.memberSince,
                       style: GoogleFonts.dmSans(
                           fontSize: 11,
-                          color: _accent,
+                          color: AppColors.accent,
                           fontWeight: FontWeight.w600)),
                 ),
               ],
@@ -266,7 +257,7 @@ class _MenuScreenState extends State<MenuScreen>
                 borderRadius: BorderRadius.circular(10),
               ),
               child: const Icon(Icons.edit_outlined,
-                  size: 16, color: _textSecondary),
+                  size: 16, color: AppColors.textSecondary),
             ),
           ),
         ],
@@ -279,13 +270,13 @@ class _MenuScreenState extends State<MenuScreen>
     return Row(
       children: [
         _StatCard(label: 'Transações', value: '47', icon: '🔁',
-            color: _accentBlue),
+            color: AppColors.accentBlue),
         const SizedBox(width: 10),
         _StatCard(label: 'Categorias', value: '8', icon: '🏷️',
-            color: _accentPurple),
+            color: AppColors.accentPurple),
         const SizedBox(width: 10),
         _StatCard(label: 'Meses', value: '3', icon: '📅',
-            color: _accentYellow),
+            color: AppColors.accentYellow),
       ],
     );
   }
@@ -301,12 +292,12 @@ class _MenuScreenState extends State<MenuScreen>
               style: GoogleFonts.dmSans(
                   fontSize: 13,
                   fontWeight: FontWeight.w700,
-                  color: _textSecondary,
+                  color: AppColors.textSecondary,
                   letterSpacing: 0.4)),
         ),
         Container(
           decoration: BoxDecoration(
-            color: _surface,
+            color: AppColors.surface,
             borderRadius: BorderRadius.circular(20),
             border: Border.all(color: Colors.white.withOpacity(0.05)),
           ),
@@ -353,7 +344,7 @@ class _MenuScreenState extends State<MenuScreen>
                   style: GoogleFonts.dmSans(
                       fontSize: 15,
                       fontWeight: FontWeight.w500,
-                      color: _textPrimary)),
+                      color: AppColors.textPrimary)),
             ),
             const Icon(Icons.arrow_forward_ios_rounded,
                 size: 14, color: Color(0xFF3D5A7A)),
@@ -371,10 +362,10 @@ class _MenuScreenState extends State<MenuScreen>
         width: double.infinity,
         height: 54,
         decoration: BoxDecoration(
-          color: _errorColor.withOpacity(0.08),
+          color: AppColors.error.withOpacity(0.08),
           borderRadius: BorderRadius.circular(16),
           border:
-              Border.all(color: _errorColor.withOpacity(0.2), width: 1.2),
+              Border.all(color: AppColors.error.withOpacity(0.2), width: 1.2),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,

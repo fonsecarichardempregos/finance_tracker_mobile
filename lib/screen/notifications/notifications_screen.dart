@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../common/app_colors.dart';
+
 // ─────────────────────────────────────────────
 //  TELA DE NOTIFICAÇÕES
 // ─────────────────────────────────────────────
@@ -14,16 +16,7 @@ class NotificationsScreen extends StatefulWidget {
 
 class _NotificationsScreenState extends State<NotificationsScreen>
     with SingleTickerProviderStateMixin {
-  // ── Paleta ────────────────────────────────
-  static const _bg = Color(0xFF0B1120);
-  static const _surface = Color(0xFF131F35);
-  static const _card = Color(0xFF1A2B45);
-  static const _accent = Color(0xFF34D399);
-  static const _accentBlue = Color(0xFF60A5FA);
-  static const _accentPink = Color(0xFFF472B6);
-  static const _accentYellow = Color(0xFFFBBF24);
-  static const _textPrimary = Color(0xFFE2E8F0);
-  static const _textSecondary = Color(0xFF64748B);
+
 
   late AnimationController _fadeController;
   late Animation<double> _fadeAnim;
@@ -134,7 +127,7 @@ class _NotificationsScreenState extends State<NotificationsScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: _bg,
+      backgroundColor: AppColors.bg,
       body: FadeTransition(
         opacity: _fadeAnim,
         child: CustomScrollView(
@@ -180,7 +173,7 @@ class _NotificationsScreenState extends State<NotificationsScreen>
 
   Widget _buildAppBar() {
     return SliverAppBar(
-      backgroundColor: _bg,
+      backgroundColor: AppColors.bg,
       pinned: true,
       elevation: 0,
       leading: GestureDetector(
@@ -188,12 +181,12 @@ class _NotificationsScreenState extends State<NotificationsScreen>
         child: Container(
           margin: const EdgeInsets.all(10),
           decoration: BoxDecoration(
-            color: _surface,
+            color: AppColors.surface,
             borderRadius: BorderRadius.circular(10),
             border: Border.all(color: Colors.white.withOpacity(0.07)),
           ),
           child: const Icon(Icons.arrow_back_ios_new_rounded,
-              color: _textPrimary, size: 15),
+              color: AppColors.textPrimary, size: 15),
         ),
       ),
       title: Column(
@@ -201,11 +194,11 @@ class _NotificationsScreenState extends State<NotificationsScreen>
         children: [
           Text('Notificações',
               style: GoogleFonts.dmSerifDisplay(
-                  fontSize: 20, color: _textPrimary)),
+                  fontSize: 20, color: AppColors.textPrimary)),
           if (_unreadCount > 0)
             Text('$_unreadCount não lidas',
                 style: GoogleFonts.dmSans(
-                    fontSize: 12, color: _accent)),
+                    fontSize: 12, color: AppColors.accent)),
         ],
       ),
       actions: [
@@ -217,15 +210,15 @@ class _NotificationsScreenState extends State<NotificationsScreen>
               padding:
                   const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
               decoration: BoxDecoration(
-                color: _accent.withOpacity(0.12),
+                color: AppColors.accent.withOpacity(0.12),
                 borderRadius: BorderRadius.circular(20),
                 border: Border.all(
-                    color: _accent.withOpacity(0.25), width: 1),
+                    color: AppColors.accent.withOpacity(0.25), width: 1),
               ),
               child: Text('Ler todas',
                   style: GoogleFonts.dmSans(
                       fontSize: 12,
-                      color: _accent,
+                      color: AppColors.accent,
                       fontWeight: FontWeight.w600)),
             ),
           ),
@@ -243,7 +236,7 @@ class _NotificationsScreenState extends State<NotificationsScreen>
                 style: GoogleFonts.dmSans(
                     fontSize: 13,
                     fontWeight: FontWeight.w700,
-                    color: _textSecondary,
+                    color: AppColors.textSecondary,
                     letterSpacing: 0.5)),
             if (count != null) ...[
               const SizedBox(width: 8),
@@ -251,13 +244,13 @@ class _NotificationsScreenState extends State<NotificationsScreen>
                 padding: const EdgeInsets.symmetric(
                     horizontal: 8, vertical: 2),
                 decoration: BoxDecoration(
-                  color: _accent.withOpacity(0.15),
+                  color: AppColors.accent.withOpacity(0.15),
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Text('$count',
                     style: GoogleFonts.dmSans(
                         fontSize: 11,
-                        color: _accent,
+                        color: AppColors.accent,
                         fontWeight: FontWeight.w700)),
               ),
             ],
@@ -291,8 +284,8 @@ class _NotificationsScreenState extends State<NotificationsScreen>
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
             color: notif.isRead
-                ? _surface
-                : _surface.withRed((_surface.red + 10).clamp(0, 255)),
+                ? AppColors.surface
+                : AppColors.surface.withRed((AppColors.surface.red + 10).clamp(0, 255)),
             borderRadius: BorderRadius.circular(18),
             border: Border.all(
               color: notif.isRead
@@ -330,7 +323,7 @@ class _NotificationsScreenState extends State<NotificationsScreen>
                                   fontWeight: notif.isRead
                                       ? FontWeight.w500
                                       : FontWeight.w700,
-                                  color: _textPrimary)),
+                                  color: AppColors.textPrimary)),
                         ),
                         const SizedBox(width: 8),
                         if (!notif.isRead)
@@ -348,12 +341,12 @@ class _NotificationsScreenState extends State<NotificationsScreen>
                     Text(notif.body,
                         style: GoogleFonts.dmSans(
                             fontSize: 12,
-                            color: _textSecondary,
+                            color: AppColors.textSecondary,
                             height: 1.5)),
                     const SizedBox(height: 6),
                     Text(notif.time,
                         style: GoogleFonts.dmSans(
-                            fontSize: 11, color: _textSecondary)),
+                            fontSize: 11, color: AppColors.textSecondary)),
                   ],
                 ),
               ),
@@ -373,11 +366,11 @@ class _NotificationsScreenState extends State<NotificationsScreen>
           const SizedBox(height: 16),
           Text('Tudo em dia!',
               style: GoogleFonts.dmSerifDisplay(
-                  fontSize: 24, color: _textPrimary)),
+                  fontSize: 24, color: AppColors.textPrimary)),
           const SizedBox(height: 8),
           Text('Nenhuma notificação por aqui.',
               style:
-                  GoogleFonts.dmSans(fontSize: 14, color: _textSecondary)),
+                  GoogleFonts.dmSans(fontSize: 14, color: AppColors.textSecondary)),
         ],
       ),
     );

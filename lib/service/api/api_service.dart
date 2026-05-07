@@ -11,10 +11,9 @@ class ApiService {
 
   ApiService.internal();
 
-  String url     = "http://10.0.2.2:3000";
+  String url = "http://10.0.2.2:3000";
   String fileUrl = "https://fileupload-dot-cashedu.uc.r.appspot.com";
 
-  // ── Opções padrão ─────────────────────────
   Options _options(Map<String, dynamic>? customHeader) => Options(
     headers: {
       "Content-Type": "application/json",
@@ -33,7 +32,6 @@ class ApiService {
     final currentUrl = (fromFileApi ? fileUrl : url) + query!;
     print(currentUrl);
 
-    // DioException é relançada automaticamente — catch fica na tela
     final response = await Dio()
         .get(currentUrl, options: _options(customHeader))
         .timeout(duration);
@@ -56,10 +54,10 @@ class ApiService {
 
     final response = await Dio()
         .post(
-      currentUrl,
-      data: jsonEncode(body ?? {}),
-      options: _options(customHeader),
-    )
+          currentUrl,
+          data: jsonEncode(body ?? {}),
+          options: _options(customHeader),
+        )
         .timeout(duration);
 
     if (response.data is List) return {"data": response.data};
@@ -80,10 +78,10 @@ class ApiService {
 
     final response = await Dio()
         .put(
-      currentUrl,
-      data: jsonEncode(body ?? {}),
-      options: _options(customHeader),
-    )
+          currentUrl,
+          data: jsonEncode(body ?? {}),
+          options: _options(customHeader),
+        )
         .timeout(duration);
 
     if (response.data is List) return {"data": response.data};

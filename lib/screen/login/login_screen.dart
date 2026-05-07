@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import '../../common/api_error_parse.dart';
+import '../../common/app_colors.dart';
 import '../../widgets/finance_snackbar.dart';
 import '../../widgets/finance_text_field.dart';
 import '../auth/auth_screen.dart';
@@ -23,7 +24,7 @@ class _LoginScreenState extends State<LoginScreen>
     with TickerProviderStateMixin {
   // ── Controllers ───────────────────────────
   final _emailController = TextEditingController(
-    text: 'fonsecarichar28@gmail.com',
+    text: 'fonsecarichard28@gmail.com',
   );
   final _passwordController = TextEditingController(text: 'Rgf@1302');
   bool _obscurePassword = true;
@@ -36,15 +37,6 @@ class _LoginScreenState extends State<LoginScreen>
   late Animation<Offset> _slideAnim;
   late Animation<double> _logoScaleAnim;
 
-  // ── Paleta (mesmo padrão do Dashboard) ────
-  static const _bg = Color(0xFF0B1120);
-  static const _surface = Color(0xFF131F35);
-  static const _card = Color(0xFF1A2B45);
-  static const _accent = Color(0xFF34D399);
-  static const _accentPink = Color(0xFFF472B6);
-  static const _textPrimary = Color(0xFFE2E8F0);
-  static const _textSecondary = Color(0xFF64748B);
-  static const _inputBorder = Color(0xFF1E3A5F);
 
   @override
   void initState() {
@@ -138,7 +130,7 @@ class _LoginScreenState extends State<LoginScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: _bg,
+      backgroundColor: AppColors.bg,
       resizeToAvoidBottomInset: true,
       body: Stack(
         children: [
@@ -190,7 +182,7 @@ class _LoginScreenState extends State<LoginScreen>
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               gradient: RadialGradient(
-                colors: [_accent.withOpacity(0.12), Colors.transparent],
+                colors: [AppColors.accent.withOpacity(0.12), Colors.transparent],
               ),
             ),
           ),
@@ -205,7 +197,7 @@ class _LoginScreenState extends State<LoginScreen>
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               gradient: RadialGradient(
-                colors: [_accentPink.withOpacity(0.08), Colors.transparent],
+                colors: [AppColors.accentPink.withOpacity(0.08), Colors.transparent],
               ),
             ),
           ),
@@ -232,7 +224,7 @@ class _LoginScreenState extends State<LoginScreen>
               borderRadius: BorderRadius.circular(22),
               boxShadow: [
                 BoxShadow(
-                  color: _accent.withOpacity(0.4),
+                  color: AppColors.accent.withOpacity(0.4),
                   blurRadius: 24,
                   offset: const Offset(0, 8),
                 ),
@@ -247,14 +239,14 @@ class _LoginScreenState extends State<LoginScreen>
             'Finança',
             style: GoogleFonts.dmSerifDisplay(
               fontSize: 32,
-              color: _textPrimary,
+              color: AppColors.textPrimary,
               letterSpacing: 0.5,
             ),
           ),
           const SizedBox(height: 6),
           Text(
             'Seu dinheiro, no controle.',
-            style: GoogleFonts.dmSans(fontSize: 14, color: _textSecondary),
+            style: GoogleFonts.dmSans(fontSize: 14, color: AppColors.textSecondary),
           ),
         ],
       ),
@@ -266,7 +258,7 @@ class _LoginScreenState extends State<LoginScreen>
     return Container(
       padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
-        color: _surface,
+        color: AppColors.surface,
         borderRadius: BorderRadius.circular(28),
         border: Border.all(color: Colors.white.withOpacity(0.06)),
         boxShadow: [
@@ -284,13 +276,13 @@ class _LoginScreenState extends State<LoginScreen>
             'Entrar',
             style: GoogleFonts.dmSerifDisplay(
               fontSize: 24,
-              color: _textPrimary,
+              color: AppColors.textPrimary,
             ),
           ),
           const SizedBox(height: 4),
           Text(
             'Bem-vindo de volta 👋',
-            style: GoogleFonts.dmSans(fontSize: 13, color: _textSecondary),
+            style: GoogleFonts.dmSans(fontSize: 13, color:AppColors.textSecondary),
           ),
           const SizedBox(height: 28),
 
@@ -319,7 +311,7 @@ class _LoginScreenState extends State<LoginScreen>
                 _obscurePassword
                     ? Icons.visibility_off_outlined
                     : Icons.visibility_outlined,
-                color: _textSecondary,
+                color: AppColors.textSecondary,
                 size: 20,
               ),
             ),
@@ -342,7 +334,7 @@ class _LoginScreenState extends State<LoginScreen>
                 'Esqueci minha senha',
                 style: GoogleFonts.dmSans(
                   fontSize: 13,
-                  color: _accent,
+                  color: AppColors.accent,
                   fontWeight: FontWeight.w600,
                 ),
               ),
@@ -363,7 +355,7 @@ class _LoginScreenState extends State<LoginScreen>
       style: GoogleFonts.dmSans(
         fontSize: 13,
         fontWeight: FontWeight.w600,
-        color: _textSecondary,
+        color: AppColors.textSecondary,
         letterSpacing: 0.3,
       ),
     );
@@ -389,7 +381,7 @@ class _LoginScreenState extends State<LoginScreen>
               ? []
               : [
                   BoxShadow(
-                    color: _accent.withOpacity(0.4),
+                    color: AppColors.accent.withOpacity(0.4),
                     blurRadius: 20,
                     offset: const Offset(0, 6),
                   ),
@@ -429,7 +421,7 @@ class _LoginScreenState extends State<LoginScreen>
           padding: const EdgeInsets.symmetric(horizontal: 12),
           child: Text(
             'ou continue com',
-            style: GoogleFonts.dmSans(fontSize: 12, color: _textSecondary),
+            style: GoogleFonts.dmSans(fontSize: 12, color: AppColors.textSecondary),
           ),
         ),
         Expanded(
@@ -459,7 +451,7 @@ class _LoginScreenState extends State<LoginScreen>
       children: [
         Text(
           'Não tem uma conta? ',
-          style: GoogleFonts.dmSans(fontSize: 14, color: _textSecondary),
+          style: GoogleFonts.dmSans(fontSize: 14, color: AppColors.textSecondary),
         ),
         GestureDetector(
           onTap: () {
@@ -473,7 +465,7 @@ class _LoginScreenState extends State<LoginScreen>
             style: GoogleFonts.dmSans(
               fontSize: 14,
               fontWeight: FontWeight.w700,
-              color: _accent,
+              color: AppColors.accent,
             ),
           ),
         ),

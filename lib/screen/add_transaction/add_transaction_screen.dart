@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../common/app_colors.dart';
+
 // ─────────────────────────────────────────────
 //  TELA DE ADICIONAR TRANSAÇÃO
 // ─────────────────────────────────────────────
@@ -16,20 +18,8 @@ class AddTransactionScreen extends StatefulWidget {
 
 class _AddTransactionScreenState extends State<AddTransactionScreen>
     with TickerProviderStateMixin {
-  // ── Paleta ────────────────────────────────
-  static const _bg = Color(0xFF0B1120);
-  static const _surface = Color(0xFF131F35);
-  static const _card = Color(0xFF1A2B45);
-  static const _accent = Color(0xFF34D399);
-  static const _accentPink = Color(0xFFF472B6);
-  static const _accentBlue = Color(0xFF60A5FA);
-  static const _accentYellow = Color(0xFFFBBF24);
-  static const _accentPurple = Color(0xFFA78BFA);
-  static const _textPrimary = Color(0xFFE2E8F0);
-  static const _textSecondary = Color(0xFF64748B);
-  static const _errorColor = Color(0xFFFC8181);
 
-  // ── Estado ────────────────────────────────
+
   bool _isExpense = true; // false = receita
   String _amount = '0';
   String? _selectedCategory;
@@ -45,7 +35,6 @@ class _AddTransactionScreenState extends State<AddTransactionScreen>
   late Animation<double> _fadeAnim;
   late Animation<double> _typeAnim;
 
-  // ── Categorias ────────────────────────────
   final _expenseCategories = [
     _Category('Alimentação', '🛒', Color(0xFF60A5FA)),
     _Category('Transporte', '🚗', Color(0xFF34D399)),
@@ -168,7 +157,7 @@ class _AddTransactionScreenState extends State<AddTransactionScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: _bg,
+      backgroundColor: AppColors.bg,
       resizeToAvoidBottomInset: false,
       body: FadeTransition(
         opacity: _fadeAnim,
@@ -198,19 +187,19 @@ class _AddTransactionScreenState extends State<AddTransactionScreen>
               width: 40,
               height: 40,
               decoration: BoxDecoration(
-                color: _surface,
+                color: AppColors.surface,
                 borderRadius: BorderRadius.circular(12),
                 border:
                     Border.all(color: Colors.white.withOpacity(0.07)),
               ),
               child: const Icon(Icons.arrow_back_ios_new_rounded,
-                  color: _textPrimary, size: 15),
+                  color: AppColors.textPrimary, size: 15),
             ),
           ),
           const SizedBox(width: 14),
           Text('Nova transação',
               style: GoogleFonts.dmSerifDisplay(
-                  fontSize: 20, color: _textPrimary)),
+                  fontSize: 20, color: AppColors.textPrimary)),
         ],
       ),
     );
@@ -224,7 +213,7 @@ class _AddTransactionScreenState extends State<AddTransactionScreen>
         height: 46,
         padding: const EdgeInsets.all(4),
         decoration: BoxDecoration(
-          color: _surface,
+          color: AppColors.surface,
           borderRadius: BorderRadius.circular(16),
           border:
               Border.all(color: Colors.white.withOpacity(0.06)),
@@ -235,7 +224,7 @@ class _AddTransactionScreenState extends State<AddTransactionScreen>
               label: 'Despesa',
               icon: '↓',
               selected: _isExpense,
-              selectedColor: _accentPink,
+              selectedColor: AppColors.accentPink,
               onTap: () {
                 if (!_isExpense) {
                   setState(() {
@@ -252,7 +241,7 @@ class _AddTransactionScreenState extends State<AddTransactionScreen>
               label: 'Receita',
               icon: '↑',
               selected: !_isExpense,
-              selectedColor: _accent,
+              selectedColor: AppColors.accent,
               onTap: () {
                 if (_isExpense) {
                   setState(() {
@@ -273,7 +262,7 @@ class _AddTransactionScreenState extends State<AddTransactionScreen>
 
   // ── Amount Display ────────────────────────
   Widget _buildAmountDisplay() {
-    final color = _isExpense ? _accentPink : _accent;
+    final color = _isExpense ? AppColors.accentPink : AppColors.accent;
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 28, 20, 0),
       child: Column(
@@ -281,7 +270,7 @@ class _AddTransactionScreenState extends State<AddTransactionScreen>
           Text(
             _isExpense ? 'Quanto você gastou?' : 'Quanto você recebeu?',
             style: GoogleFonts.dmSans(
-                fontSize: 13, color: _textSecondary),
+                fontSize: 13, color: AppColors.textSecondary),
           ),
           const SizedBox(height: 12),
           Row(
@@ -290,7 +279,7 @@ class _AddTransactionScreenState extends State<AddTransactionScreen>
             children: [
               Text('R\$',
                   style: GoogleFonts.dmSerifDisplay(
-                      fontSize: 24, color: _textSecondary)),
+                      fontSize: 24, color: AppColors.textSecondary)),
               const SizedBox(width: 8),
               AnimatedDefaultTextStyle(
                 duration: const Duration(milliseconds: 150),
@@ -314,12 +303,12 @@ class _AddTransactionScreenState extends State<AddTransactionScreen>
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Icon(Icons.error_outline_rounded,
-              size: 13, color: _errorColor),
+           Icon(Icons.error_outline_rounded,
+              size: 13, color: AppColors.error),
           const SizedBox(width: 4),
           Text(_amountError!,
               style: GoogleFonts.dmSans(
-                  fontSize: 12, color: _errorColor)),
+                  fontSize: 12, color: AppColors.error)),
         ],
       ),
     );
@@ -341,10 +330,10 @@ class _AddTransactionScreenState extends State<AddTransactionScreen>
             builder: (ctx, child) => Theme(
               data: ThemeData.dark().copyWith(
                 colorScheme: const ColorScheme.dark(
-                  primary: _accent,
+                  primary: AppColors.accent,
                   onPrimary: Colors.black,
                   surface: Color(0xFF1A2B45),
-                  onSurface: _textPrimary,
+                  onSurface: AppColors.textPrimary,
                 ),
                 dialogBackgroundColor: const Color(0xFF131F35),
               ),
@@ -357,7 +346,7 @@ class _AddTransactionScreenState extends State<AddTransactionScreen>
           padding:
               const EdgeInsets.symmetric(horizontal: 14, vertical: 7),
           decoration: BoxDecoration(
-            color: _surface,
+            color: AppColors.surface,
             borderRadius: BorderRadius.circular(20),
             border: Border.all(color: Colors.white.withOpacity(0.08)),
           ),
@@ -365,14 +354,14 @@ class _AddTransactionScreenState extends State<AddTransactionScreen>
             mainAxisSize: MainAxisSize.min,
             children: [
               const Icon(Icons.calendar_today_outlined,
-                  size: 14, color: _textSecondary),
+                  size: 14, color: AppColors.textSecondary),
               const SizedBox(width: 6),
               Text(formatted,
                   style: GoogleFonts.dmSans(
-                      fontSize: 13, color: _textSecondary)),
+                      fontSize: 13, color: AppColors.textSecondary)),
               const SizedBox(width: 4),
               const Icon(Icons.expand_more_rounded,
-                  size: 14, color: _textSecondary),
+                  size: 14, color: AppColors.textSecondary),
             ],
           ),
         ),
@@ -385,7 +374,7 @@ class _AddTransactionScreenState extends State<AddTransactionScreen>
     return Container(
       margin: const EdgeInsets.only(top: 20),
       decoration: BoxDecoration(
-        color: _surface,
+        color: AppColors.surface,
         borderRadius:
             const BorderRadius.vertical(top: Radius.circular(32)),
         border: Border.all(color: Colors.white.withOpacity(0.06)),
@@ -436,15 +425,15 @@ class _AddTransactionScreenState extends State<AddTransactionScreen>
                 style: GoogleFonts.dmSans(
                     fontSize: 13,
                     fontWeight: FontWeight.w700,
-                    color: _textSecondary)),
+                    color: AppColors.textSecondary)),
             if (_categoryError != null) ...[
               const SizedBox(width: 8),
-              const Icon(Icons.error_outline_rounded,
-                  size: 13, color: _errorColor),
-              const SizedBox(width: 3),
+               Icon(Icons.error_outline_rounded,
+                  size: 13, color: AppColors.error),
+               SizedBox(width: 3),
               Text(_categoryError!,
                   style: GoogleFonts.dmSans(
-                      fontSize: 12, color: _errorColor)),
+                      fontSize: 12, color: AppColors.error)),
             ],
           ],
         ),
@@ -466,7 +455,7 @@ class _AddTransactionScreenState extends State<AddTransactionScreen>
                 decoration: BoxDecoration(
                   color: selected
                       ? c.color.withOpacity(0.18)
-                      : _card,
+                      : AppColors.card,
                   borderRadius: BorderRadius.circular(12),
                   border: Border.all(
                     color: selected
@@ -489,7 +478,7 @@ class _AddTransactionScreenState extends State<AddTransactionScreen>
                                 : FontWeight.w400,
                             color: selected
                                 ? c.color
-                                : _textSecondary)),
+                                : AppColors.textSecondary)),
                   ],
                 ),
               ),
@@ -509,18 +498,18 @@ class _AddTransactionScreenState extends State<AddTransactionScreen>
             style: GoogleFonts.dmSans(
                 fontSize: 13,
                 fontWeight: FontWeight.w700,
-                color: _textSecondary)),
+                color: AppColors.textSecondary)),
         const SizedBox(height: 8),
         TextField(
           controller: _descController,
-          style: GoogleFonts.dmSans(color: _textPrimary, fontSize: 14),
-          cursorColor: _accent,
+          style: GoogleFonts.dmSans(color: AppColors.textPrimary, fontSize: 14),
+          cursorColor: AppColors.accent,
           decoration: InputDecoration(
             hintText: 'Ex: Almoço com amigos',
             hintStyle:
-                GoogleFonts.dmSans(color: _textSecondary, fontSize: 14),
+                GoogleFonts.dmSans(color: AppColors.textSecondary, fontSize: 14),
             prefixIcon: const Icon(Icons.notes_rounded,
-                color: _textSecondary, size: 20),
+                color: AppColors.textSecondary, size: 20),
             filled: true,
             fillColor: const Color(0xFF0F1E33),
             contentPadding: const EdgeInsets.symmetric(
@@ -533,7 +522,7 @@ class _AddTransactionScreenState extends State<AddTransactionScreen>
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(14),
               borderSide:
-                  const BorderSide(color: _accent, width: 1.5),
+                  const BorderSide(color: AppColors.accent, width: 1.5),
             ),
           ),
         ),
@@ -565,23 +554,23 @@ class _AddTransactionScreenState extends State<AddTransactionScreen>
                     height: 52,
                     decoration: BoxDecoration(
                       color: isBackspace
-                          ? _accentPink.withOpacity(0.1)
-                          : _card,
+                          ? AppColors.accentPink.withOpacity(0.1)
+                          : AppColors.card,
                       borderRadius: BorderRadius.circular(14),
                       border: Border.all(
                         color: isBackspace
-                            ? _accentPink.withOpacity(0.2)
+                            ? AppColors.accentPink.withOpacity(0.2)
                             : Colors.white.withOpacity(0.06),
                       ),
                     ),
                     child: Center(
                       child: isBackspace
                           ? const Icon(Icons.backspace_outlined,
-                              color: _accentPink, size: 20)
+                              color: AppColors.accentPink, size: 20)
                           : Text(key,
                               style: GoogleFonts.dmSerifDisplay(
                                   fontSize: 22,
-                                  color: _textPrimary)),
+                                  color: AppColors.textPrimary)),
                     ),
                   ),
                 ),
@@ -595,7 +584,7 @@ class _AddTransactionScreenState extends State<AddTransactionScreen>
 
   // ── Save Button ───────────────────────────
   Widget _buildSaveButton() {
-    final color = _isExpense ? _accentPink : _accent;
+    final color = _isExpense ? AppColors.accentPink : AppColors.accent;
     final darkColor =
         _isExpense ? const Color(0xFFBE185D) : const Color(0xFF059669);
     return GestureDetector(

@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import '../../common/api_error_parse.dart';
+import '../../common/app_colors.dart';
 import '../../manager/user_manager.dart';
 import '../../widgets/bloob.dart';
 import '../../widgets/field_lable.dart';
@@ -24,13 +25,7 @@ class ForgotPasswordScreen extends StatefulWidget {
 
 class _ForgotPasswordScreenState extends State<ForgotPasswordScreen>
     with TickerProviderStateMixin {
-  static const _bg = Color(0xFF0B1120);
-  static const _surface = Color(0xFF131F35);
-  static const _accent = Color(0xFF34D399);
-  static const _accentPink = Color(0xFFF472B6);
-  static const _accentBlue = Color(0xFF60A5FA);
-  static const _textPrimary = Color(0xFFE2E8F0);
-  static const _textSecondary = Color(0xFF64748B);
+
 
   int _step = 0;
   bool _isLoading = false;
@@ -235,7 +230,7 @@ void _showResultSheet({
 @override
 Widget build(BuildContext context) {
   return Scaffold(
-    backgroundColor: _bg,
+    backgroundColor: AppColors.bg,
     resizeToAvoidBottomInset: true,
     body: Stack(
       children: [
@@ -267,7 +262,7 @@ Widget build(BuildContext context) {
                               'Reenviar código',
                               style: GoogleFonts.dmSans(
                                 fontSize: 14,
-                                color: _accent,
+                                color: AppColors.accent,
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
@@ -306,13 +301,13 @@ Widget _buildHeader() {
             width: 40,
             height: 40,
             decoration: BoxDecoration(
-              color: _surface,
+              color: AppColors.surface,
               borderRadius: BorderRadius.circular(12),
               border: Border.all(color: Colors.white.withOpacity(0.07)),
             ),
             child: const Icon(
               Icons.arrow_back_ios_new_rounded,
-              color: _textPrimary,
+              color: AppColors.textPrimary,
               size: 16,
             ),
           ),
@@ -325,12 +320,12 @@ Widget _buildHeader() {
               'Recuperar senha',
               style: GoogleFonts.dmSerifDisplay(
                 fontSize: 22,
-                color: _textPrimary,
+                color: AppColors.textPrimary,
               ),
             ),
             Text(
               ['Informe o e-mail', 'Verifique o código', 'Nova senha'][_step],
-              style: GoogleFonts.dmSans(fontSize: 12, color: _textSecondary),
+              style: GoogleFonts.dmSans(fontSize: 12, color: AppColors.textSecondary),
             ),
           ],
         ),
@@ -343,7 +338,7 @@ Widget _buildStepCard() {
   return Container(
     padding: const EdgeInsets.all(24),
     decoration: BoxDecoration(
-      color: _surface,
+      color: AppColors.surface,
       borderRadius: BorderRadius.circular(28),
       border: Border.all(color: Colors.white.withOpacity(0.06)),
       boxShadow: [
@@ -424,7 +419,7 @@ Widget _buildCodeStep() {
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
-                  borderSide: const BorderSide(color: _accent, width: 1.8),
+                  borderSide: const BorderSide(color: AppColors.accent, width: 1.8),
                 ),
               ),
               onChanged: (val) {
@@ -478,7 +473,7 @@ Widget _buildNewPassStep() {
             _obscureNew
                 ? Icons.visibility_off_outlined
                 : Icons.visibility_outlined,
-            color: _textSecondary,
+            color: AppColors.textSecondary,
             size: 20,
           ),
         ),
@@ -501,7 +496,7 @@ Widget _buildNewPassStep() {
             _obscureConfirm
                 ? Icons.visibility_off_outlined
                 : Icons.visibility_outlined,
-            color: _textSecondary,
+            color: AppColors.textSecondary,
             size: 20,
           ),
         ),
@@ -516,12 +511,12 @@ Widget _buildBlobs() {
       Positioned(
         top: -60,
         right: -80,
-        child: Blob(color: _accent.withOpacity(0.10), size: 240),
+        child: Blob(color: AppColors.accent.withOpacity(0.10), size: 240),
       ),
       Positioned(
         bottom: 80,
         left: -100,
-        child: Blob(color: _accentBlue.withOpacity(0.08), size: 280),
+        child: Blob(color: AppColors.accentBlue.withOpacity(0.08), size: 280),
       ),
     ],
   );

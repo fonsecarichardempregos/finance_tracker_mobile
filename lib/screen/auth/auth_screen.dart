@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:dio/dio.dart';
+import 'package:finance_tracker_app/common/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -27,14 +28,6 @@ class SignUpScreen extends StatefulWidget {
 
 class _SignUpScreenState extends State<SignUpScreen>
     with TickerProviderStateMixin {
-  static const _bg = Color(0xFF0B1120);
-  static const _surface = Color(0xFF131F35);
-  static const _accent = Color(0xFF34D399);
-  static const _accentPink = Color(0xFFF472B6);
-  static const _accentBlue = Color(0xFF60A5FA);
-  static const _textPrimary = Color(0xFFE2E8F0);
-  static const _textSecondary = Color(0xFF64748B);
-  static const _errorColor = Color(0xFFFC8181);
 
   int _currentStep = 0;
   bool _isLoading = false;
@@ -211,7 +204,7 @@ class _SignUpScreenState extends State<SignUpScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: _bg,
+      backgroundColor: AppColors.bg,
       resizeToAvoidBottomInset: true,
       body: Stack(
         children: [
@@ -260,13 +253,13 @@ class _SignUpScreenState extends State<SignUpScreen>
                 width: 40,
                 height: 40,
                 decoration: BoxDecoration(
-                  color: _surface,
+                  color: AppColors.surface,
                   borderRadius: BorderRadius.circular(12),
                   border: Border.all(color: Colors.white.withOpacity(0.07)),
                 ),
                 child: const Icon(
                   Icons.arrow_back_ios_new_rounded,
-                  color: _textPrimary,
+                  color: AppColors.textPrimary,
                   size: 16,
                 ),
               ),
@@ -278,13 +271,13 @@ class _SignUpScreenState extends State<SignUpScreen>
                 width: 40,
                 height: 40,
                 decoration: BoxDecoration(
-                  color: _surface,
+                  color: AppColors.surface,
                   borderRadius: BorderRadius.circular(12),
                   border: Border.all(color: Colors.white.withOpacity(0.07)),
                 ),
                 child: const Icon(
                   Icons.arrow_back_ios_new_rounded,
-                  color: _textPrimary,
+                  color: AppColors.textPrimary,
                   size: 16,
                 ),
               ),
@@ -297,12 +290,12 @@ class _SignUpScreenState extends State<SignUpScreen>
                 'Criar conta',
                 style: GoogleFonts.dmSerifDisplay(
                   fontSize: 22,
-                  color: _textPrimary,
+                  color: AppColors.textPrimary,
                 ),
               ),
               Text(
                 'Etapa ${_currentStep + 1} de 3',
-                style: GoogleFonts.dmSans(fontSize: 12, color: _textSecondary),
+                style: GoogleFonts.dmSans(fontSize: 12, color: AppColors.textSecondary),
               ),
             ],
           ),
@@ -332,7 +325,7 @@ class _SignUpScreenState extends State<SignUpScreen>
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(4),
                           color: done || active
-                              ? _accent
+                              ? AppColors.accent
                               : Colors.white.withOpacity(0.1),
                         ),
                       ),
@@ -345,10 +338,10 @@ class _SignUpScreenState extends State<SignUpScreen>
                             style: TextStyle(
                               fontSize: 11,
                               color: done
-                                  ? _accent
+                                  ? AppColors.accent
                                   : active
-                                  ? _textPrimary
-                                  : _textSecondary,
+                                  ? AppColors.textPrimary
+                                  : AppColors.textSecondary,
                             ),
                           ),
                           Text(
@@ -359,10 +352,10 @@ class _SignUpScreenState extends State<SignUpScreen>
                                   ? FontWeight.w700
                                   : FontWeight.w400,
                               color: done
-                                  ? _accent
+                                  ? AppColors.accent
                                   : active
-                                  ? _textPrimary
-                                  : _textSecondary,
+                                  ? AppColors.textPrimary
+                                  : AppColors.textSecondary,
                             ),
                           ),
                         ],
@@ -383,7 +376,7 @@ class _SignUpScreenState extends State<SignUpScreen>
     return Container(
       padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
-        color: _surface,
+        color: AppColors.surface,
         borderRadius: BorderRadius.circular(28),
         border: Border.all(color: Colors.white.withOpacity(0.06)),
         boxShadow: [
@@ -455,7 +448,7 @@ class _SignUpScreenState extends State<SignUpScreen>
               _obscurePassword
                   ? Icons.visibility_off_outlined
                   : Icons.visibility_outlined,
-              color: _textSecondary,
+              color: AppColors.textSecondary,
               size: 20,
             ),
           ),
@@ -475,7 +468,7 @@ class _SignUpScreenState extends State<SignUpScreen>
               _obscureConfirm
                   ? Icons.visibility_off_outlined
                   : Icons.visibility_outlined,
-              color: _textSecondary,
+              color: AppColors.textSecondary,
               size: 20,
             ),
           ),
@@ -519,10 +512,10 @@ class _SignUpScreenState extends State<SignUpScreen>
               builder: (ctx, child) => Theme(
                 data: ThemeData.dark().copyWith(
                   colorScheme: const ColorScheme.dark(
-                    primary: _accent,
+                    primary: AppColors.accent,
                     onPrimary: Colors.black,
                     surface: Color(0xFF1A2B45),
-                    onSurface: _textPrimary,
+                    onSurface: AppColors.textPrimary,
                   ),
                   dialogBackgroundColor: const Color(0xFF131F35),
                 ),
@@ -569,12 +562,12 @@ class _SignUpScreenState extends State<SignUpScreen>
         Positioned(
           top: -60,
           left: -80,
-          child: Blob(color: _accentBlue.withOpacity(0.10), size: 240),
+          child: Blob(color: AppColors.accentBlue.withOpacity(0.10), size: 240),
         ),
         Positioned(
           bottom: 80,
           right: -100,
-          child: Blob(color: _accentPink.withOpacity(0.08), size: 280),
+          child: Blob(color: AppColors.accentPink.withOpacity(0.08), size: 280),
         ),
       ],
     );
